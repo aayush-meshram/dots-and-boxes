@@ -18,15 +18,14 @@ public class MainActivity extends AppCompatActivity {
     private TextView scoreLuigi;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_main);
+
         mText = findViewById(R.id.mText);
         mInt = findViewById(R.id.mInt);
         mButton = findViewById(R.id.mButton);
         scoreMario = findViewById(R.id.scoreM);
         scoreLuigi = findViewById(R.id.scoreL);
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
-
-
 
         mButton.setOnClickListener(new View.OnClickListener() {
             @Override
