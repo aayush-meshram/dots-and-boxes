@@ -16,6 +16,7 @@ public class MainActivity extends AppCompatActivity {
     private Button mButton;
     private TextView scoreMario;
     private TextView scoreLuigi;
+    private customView theImage;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -26,6 +27,10 @@ public class MainActivity extends AppCompatActivity {
         mButton = findViewById(R.id.mButton);
         scoreMario = findViewById(R.id.scoreM);
         scoreLuigi = findViewById(R.id.scoreL);
+        theImage = findViewById(R.id.theImage);
+
+        scoreLuigi.setVisibility(View.INVISIBLE);
+        scoreMario.setVisibility(View.INVISIBLE);
 
         mButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -36,6 +41,8 @@ public class MainActivity extends AppCompatActivity {
         });
 
     }
+
+
 
     public void createdots()    {
         int m = Integer.parseInt(mInt.getText().toString());

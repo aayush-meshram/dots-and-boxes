@@ -14,11 +14,11 @@ import androidx.core.content.res.ResourcesCompat;
 public class customView extends View {
     public static int m;
     public Bitmap mBitmap;
-    public Paint mPaint;
+    public Paint mPaint = new Paint();
     public int mBitmapX;
     public int mBitmapY;
     public RectF mRect;
-    public Boolean b;
+    public Boolean b = true;
 
 
     public customView(Context context, int n)  {
@@ -37,25 +37,25 @@ public class customView extends View {
         mPaint.setAntiAlias(true);
         mPaint.setColor(ResourcesCompat.getColor(getResources(), R.color.colorPrimaryDark, null));
 
-        if (b) {
-            super.onDraw(canvas);
 
-            float x = getWidth();
-            float y = getHeight();
+        super.onDraw(canvas);
 
-            float x1 = (1 / (float) (m + 10)) * x;
-            float y1 = (1 / (float) (m + 10)) * y;
-            for (int i = 1; i <= m; i++) {
-                x1 = ((1 / (float) (m)) * x) / 2.0F;
-                for (int j = 1; j <= m; j++) {
-                    canvas.drawCircle(x1, y1, 20.0F, mPaint);
-                    x1 += ((1 / (float) (m)) * x);
-                }
-                y1 += ((1 / (float) (m)) * x);
+        float x = getWidth();
+        float y = getHeight();
 
+        float x1 = (1 / (float) (m + 10)) * x;
+        float y1 = (1 / (float) (m + 10)) * y;
+        for (int i = 1; i <= m; i++) {
+            x1 = ((1 / (float) (m)) * x) / 2.0F;
+            for (int j = 1; j <= m; j++) {
+                canvas.drawCircle(x1, y1, 20.0F, mPaint);
+                x1 += ((1 / (float) (m)) * x);
             }
+            y1 += ((1 / (float) (m)) * x);
 
+        }
 
+        if(m != 0) {
             mBitmap = BitmapFactory.decodeResource(getResources(), R.drawable.mario);
             setUpBitmap();
             int left = (int) (0.05 * getWidth());
@@ -67,8 +67,9 @@ public class customView extends View {
             left = (int) ((getWidth() - mBitmap.getWidth()) - (0.05 * getWidth()));
             top = (int) ((getHeight() - mBitmap.getHeight()) - (0.05 * getWidth()));
             canvas.drawBitmap(mBitmap, left, top, mPaint);
-
         }
+        invalidate();
+
     }
     public void setUpBitmap()   {
         mBitmapX = (int) Math.floor(mBitmap.getWidth());
