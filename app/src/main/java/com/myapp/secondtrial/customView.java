@@ -1,5 +1,6 @@
 package com.myapp.secondtrial;
 
+import android.app.Activity;
 import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
@@ -7,7 +8,10 @@ import android.graphics.Canvas;
 import android.graphics.Paint;
 import android.graphics.RectF;
 import android.util.AttributeSet;
+import android.view.MotionEvent;
 import android.view.View;
+import android.widget.ActionMenuView;
+import android.widget.Toast;
 
 import androidx.core.content.res.ResourcesCompat;
 
@@ -19,6 +23,7 @@ public class customView extends View {
     public int mBitmapY;
     public RectF mRect;
     public Boolean b = true;
+
 
 
     public customView(Context context, int n)  {
@@ -78,4 +83,47 @@ public class customView extends View {
                 mBitmapX + mBitmap.getWidth(),
                 mBitmapY + mBitmap.getHeight());
     }
+
+    @Override
+    public boolean onTouchEvent(MotionEvent event) {
+        int c = m;
+
+        String coords[][] = new String[c][c];
+
+        float x = event.getX();
+        float y = event.getY();
+
+        float x1 = (1 / (float) (m + 10)) * x;
+        float y1 = (1 / (float) (m + 10)) * y;
+
+        float list[] = new float[100];
+        int count = 0;
+
+        float d = 0;
+
+        float tempx = x1;
+        float tempy = y1;
+
+        for (int i = 1; i <= m; i++) {
+            float dist = 0;
+            x1 = ((1 / (float) (m)) * x) / 2.0F;
+            for (int j = 1; j <= m; j++) {
+                //coords[i][j] = String.valueOf(i + "," + j);
+                x1 += ((1 / (float) (m)) * x);
+                dist = (Math.abs(tempx - x1));
+                if(dist<d)
+                    d = dist;
+            }
+            y1 += ((1 / (float) (m)) * x);
+            dist = Math.abs(tempy - y1);
+            if (dist < d)
+                d = dist;
+            tempx = x1;
+            tempy = y1;
+            Toast.makeText(this.getContext(), String.valueOf(d), Toast.LENGTH_SHORT);
+        }
+        Toast.makeText(this.getContext(), String.valueOf(d), Toast.LENGTH_SHORT);
+        return false;
+    }
+
 }

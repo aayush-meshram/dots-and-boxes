@@ -3,11 +3,15 @@ package com.myapp.secondtrial;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Context;
+import android.graphics.Canvas;
+import android.graphics.Color;
 import android.os.Bundle;
+import android.view.MotionEvent;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
+import android.widget.Toast;
 
 
 public class MainActivity extends AppCompatActivity {
@@ -17,6 +21,9 @@ public class MainActivity extends AppCompatActivity {
     private TextView scoreMario;
     private TextView scoreLuigi;
     private customView theImage;
+
+    public float x;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -41,8 +48,6 @@ public class MainActivity extends AppCompatActivity {
         });
 
     }
-
-
 
     public void createdots()    {
         int m = Integer.parseInt(mInt.getText().toString());
