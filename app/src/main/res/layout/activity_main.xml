@@ -62,7 +62,8 @@
         android:textSize="30dp" />
 
     <com.myapp.secondtrial.customView
+        android:id="@+id/custom"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:id="@+id/theImage"/>
+        android:layout_height="match_parent"/>
+
 </RelativeLayout>
