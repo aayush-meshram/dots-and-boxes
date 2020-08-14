@@ -7,7 +7,9 @@ import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
 import android.graphics.Paint;
 import android.graphics.RectF;
+import android.nfc.Tag;
 import android.util.AttributeSet;
+import android.util.Log;
 import android.view.MotionEvent;
 import android.view.View;
 import android.widget.ActionMenuView;
@@ -84,20 +86,23 @@ public class customView extends View {
                 mBitmapY + mBitmap.getHeight());
     }
 
+
     @Override
-    public boolean onTouchEvent(MotionEvent event) {
+        public void setOnTouchListener(OnTouchListener l) {
+        super.setOnTouchListener(l);
         int c = m;
 
-        String coords[][] = new String[c][c];
+        //String coords[][] = new String[c][c];
 
-        float x = event.getX();
-        float y = event.getY();
+        float x = getX();
+        Toast.makeText(this.getContext(), String.valueOf(x),Toast.LENGTH_SHORT).show();
+        float y = getY();
 
         float x1 = (1 / (float) (m + 10)) * x;
         float y1 = (1 / (float) (m + 10)) * y;
 
-        float list[] = new float[100];
-        int count = 0;
+        //float list[] = new float[100];
+        //int count = 0;
 
         float d = 0;
 
@@ -105,6 +110,8 @@ public class customView extends View {
         float tempy = y1;
 
         for (int i = 1; i <= m; i++) {
+
+
             float dist = 0;
             x1 = ((1 / (float) (m)) * x) / 2.0F;
             for (int j = 1; j <= m; j++) {
@@ -120,10 +127,8 @@ public class customView extends View {
                 d = dist;
             tempx = x1;
             tempy = y1;
-            Toast.makeText(this.getContext(), String.valueOf(d), Toast.LENGTH_SHORT);
+            Toast.makeText(this.getContext(), String.valueOf(d), Toast.LENGTH_SHORT).show();
         }
-        Toast.makeText(this.getContext(), String.valueOf(d), Toast.LENGTH_SHORT);
-        return false;
+        Toast.makeText(this.getContext(), String.valueOf(d), Toast.LENGTH_SHORT).show();
     }
-
 }

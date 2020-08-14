@@ -1,11 +1,13 @@
 package com.myapp.secondtrial;
 
+import androidx.annotation.IntegerRes;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Context;
 import android.graphics.Canvas;
 import android.graphics.Color;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.MotionEvent;
 import android.view.View;
 import android.widget.Button;
@@ -21,6 +23,7 @@ public class MainActivity extends AppCompatActivity {
     private TextView scoreMario;
     private TextView scoreLuigi;
     private customView theImage;
+    public Context context;
 
     public float x;
 
@@ -35,9 +38,11 @@ public class MainActivity extends AppCompatActivity {
         scoreMario = findViewById(R.id.scoreM);
         scoreLuigi = findViewById(R.id.scoreL);
         theImage = findViewById(R.id.theImage);
+        context = this;
 
         scoreLuigi.setVisibility(View.INVISIBLE);
         scoreMario.setVisibility(View.INVISIBLE);
+
 
         mButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -46,6 +51,62 @@ public class MainActivity extends AppCompatActivity {
                 createdots();
             }
         });
+        if(mInt.getText().toString().isEmpty())
+            return;
+        else {
+            int m = Integer.parseInt(mInt.getText().toString());
+            final customView customView = new customView(this, m);
+
+
+            customView.setOnTouchListener(new View.OnTouchListener() {
+                @Override
+                public boolean onTouch(View view, MotionEvent motionEvent) {
+
+                    if (mInt.getText().toString().isEmpty())
+                        return false;
+
+                    int m = Integer.parseInt(mInt.getText().toString());
+
+                    //String coords[][] = new String[c][c];
+
+                    float x = motionEvent.getX();
+                    float y = motionEvent.getY();
+
+                    float x1 = (1 / (float) (m + 10)) * x;
+                    float y1 = (1 / (float) (m + 10)) * y;
+
+                    //float list[] = new float[100];
+                    //int count = 0;
+
+                    float d = 0;
+
+                    float tempx = x1;
+                    float tempy = y1;
+
+                    for (int i = 1; i <= m; i++) {
+
+
+                        float dist = 0;
+                        x1 = ((1 / (float) (m)) * x) / 2.0F;
+                        for (int j = 1; j <= m; j++) {
+                            //coords[i][j] = String.valueOf(i + "," + j);
+                            x1 += ((1 / (float) (m)) * x);
+                            dist = (Math.abs(tempx - x1));
+                            if (dist < d)
+                                d = dist;
+                        }
+                        y1 += ((1 / (float) (m)) * x);
+                        dist = Math.abs(tempy - y1);
+                        if (dist < d)
+                            d = dist;
+                        tempx = x1;
+                        tempy = y1;
+                        Log.d("ENTERED:", "OnTouch");
+                    }
+                    return true;
+                }
+            });
+        }
 
     }
 
@@ -61,5 +122,6 @@ public class MainActivity extends AppCompatActivity {
         scoreLuigi.setVisibility(View.VISIBLE);
         scoreMario.setVisibility(View.VISIBLE);
     }
+
 
 }
