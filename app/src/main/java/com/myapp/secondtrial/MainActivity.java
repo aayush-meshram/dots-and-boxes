@@ -22,8 +22,8 @@ public class MainActivity extends AppCompatActivity {
     private Button mButton;
     private TextView scoreMario;
     private TextView scoreLuigi;
-    private customView theImage;
     public Context context;
+    public customView mCustom;
 
     public float x;
 
@@ -37,13 +37,18 @@ public class MainActivity extends AppCompatActivity {
         mButton = findViewById(R.id.mButton);
         scoreMario = findViewById(R.id.scoreM);
         scoreLuigi = findViewById(R.id.scoreL);
-        theImage = findViewById(R.id.theImage);
+        mCustom = findViewById(R.id.custom);
         context = this;
 
-        scoreLuigi.setVisibility(View.INVISIBLE);
-        scoreMario.setVisibility(View.INVISIBLE);
+        scoreLuigi.setVisibility(View.GONE);
+        scoreMario.setVisibility(View.GONE);
+        mCustom.setVisibility(View.GONE);
 
+    }
 
+    @Override
+    protected void onStart() {
+        super.onStart();
         mButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -51,76 +56,22 @@ public class MainActivity extends AppCompatActivity {
                 createdots();
             }
         });
-        if(mInt.getText().toString().isEmpty())
-            return;
-        else {
-            int m = Integer.parseInt(mInt.getText().toString());
-            final customView customView = new customView(this, m);
-
-
-            customView.setOnTouchListener(new View.OnTouchListener() {
-                @Override
-                public boolean onTouch(View view, MotionEvent motionEvent) {
-
-                    if (mInt.getText().toString().isEmpty())
-                        return false;
-
-                    int m = Integer.parseInt(mInt.getText().toString());
-
-                    //String coords[][] = new String[c][c];
-
-                    float x = motionEvent.getX();
-                    float y = motionEvent.getY();
-
-                    float x1 = (1 / (float) (m + 10)) * x;
-                    float y1 = (1 / (float) (m + 10)) * y;
-
-                    //float list[] = new float[100];
-                    //int count = 0;
-
-                    float d = 0;
-
-                    float tempx = x1;
-                    float tempy = y1;
-
-                    for (int i = 1; i <= m; i++) {
-
-
-                        float dist = 0;
-                        x1 = ((1 / (float) (m)) * x) / 2.0F;
-                        for (int j = 1; j <= m; j++) {
-                            //coords[i][j] = String.valueOf(i + "," + j);
-                            x1 += ((1 / (float) (m)) * x);
-                            dist = (Math.abs(tempx - x1));
-                            if (dist < d)
-                                d = dist;
-                        }
-                        y1 += ((1 / (float) (m)) * x);
-                        dist = Math.abs(tempy - y1);
-                        if (dist < d)
-                            d = dist;
-                        tempx = x1;
-                        tempy = y1;
-                        Log.d("ENTERED:", "OnTouch");
-                    }
-                    return true;
-                }
-            });
-        }
-
     }
 
     public void createdots()    {
         int m = Integer.parseInt(mInt.getText().toString());
-        customView customView = new customView(this, m);
+        mCustom.setMVal(m);
     }
 
     public void buttonVisibility()  {
-        mText.setVisibility(View.INVISIBLE);
-        mInt.setVisibility(View.INVISIBLE);
-        mButton.setVisibility(View.INVISIBLE);
+        mText.setVisibility(View.GONE);
+        mInt.setVisibility(View.GONE);
+        mButton.setVisibility(View.GONE);
         scoreLuigi.setVisibility(View.VISIBLE);
         scoreMario.setVisibility(View.VISIBLE);
+        mCustom.setVisibility(View.VISIBLE);
+        mCustom.setEnable(true);
+
     }
 
 
