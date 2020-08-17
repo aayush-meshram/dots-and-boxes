@@ -33,6 +33,7 @@ public class customView extends View {
     public Boolean enableView = false;
     public String co_ords[][];
     public Boolean updateView = false;
+    public float maxDist;
     String d;
     String d1;
 
@@ -73,12 +74,13 @@ public class customView extends View {
         float x1 = (1 / (float) (m + 10)) * x;
         float y1 = (1 / (float) (m + 10)) * y;
 
+        maxDist = ((1 / (float) (m)) * x) / 2.0F;
+
         for (int i = 1; i <= m; i++) {
             x1 = ((1 / (float) (m)) * x) / 2.0F;
             for (int j = 1; j <= m; j++) {
                 canvas.drawCircle(x1, y1, 20.0F, mPaint);
-                co_ords[i-1][j-1
-                        ] = x1+","+y1;
+                co_ords[i-1][j-1] = x1+","+y1;
                 x1 += ((1 / (float) (m)) * x);
             }
             y1 += ((1 / (float) (m)) * x);
@@ -101,13 +103,17 @@ public class customView extends View {
         //MAKING LINES HERE
         if(updateView)  {
             Pattern pattern = Pattern.compile(",");
-            float startX = Float.parseFloat(pattern.split(d)[0]);
-            float startY = Float.parseFloat(pattern.split(d)[1]);
-            float stopX = Float.parseFloat(pattern.split(d1)[0]);
-            float stopY = Float.parseFloat(pattern.split(d1)[1]);
+            int startI = Integer.parseInt(pattern.split(d)[0]);
+            int startJ = Integer.parseInt(pattern.split(d)[1]);
+            int stopI = Integer.parseInt(pattern.split(d1)[0]);
+            int stopJ = Integer.parseInt(pattern.split(d1)[1]);
+            float startX = Float.parseFloat(pattern.split(co_ords[startI][startJ])[0]);
+            float startY = Float.parseFloat(pattern.split(co_ords[startI][startJ])[1]);
+            float stopX = Float.parseFloat(pattern.split(co_ords[stopI][stopJ])[0]);
+            float stopY = Float.parseFloat(pattern.split(co_ords[stopI][stopJ])[1]);
             canvas.drawLine(startX, startY, stopX, stopY, new Paint(Color.BLACK));
-            Toast.makeText(this.getContext(),"updateView kaam kr gaya", Toast.LENGTH_SHORT).show();
-            invalidate();
+            //Toast.makeText(this.getContext(),"updateView kaam kr gaya", Toast.LENGTH_SHORT).show();
+            //invalidate();
         }
 
         invalidate();
@@ -178,14 +184,23 @@ public class customView extends View {
         Pattern pattern = Pattern.compile(",");
         float tempx = Integer.parseInt(pattern.split(s1)[0]);
         float tempy = Integer.parseInt(pattern.split(s1)[1]);
+
+        /*float zeroX = Float.parseFloat(pattern.split(co_ords[0][0])[0]);
+        float zeroY = Float.parseFloat(pattern.split(co_ords[0][0])[1]);
+        float oneX = Float.parseFloat(pattern.split(co_ords[1][1])[0]);
+        float oneY = Float.parseFloat(pattern.split(co_ords[1][1])[1]);
+        //float maxDist = (float)Math.sqrt(Math.pow((zeroX - oneX),2) + Math.pow((zeroY - oneY),2));*/
+
         for(int i = 0; i < m; i++)  {
             for(int j = 0; j < m; j++)  {
                 float X = Float.parseFloat(pattern.split(co_ords[i][j])[0]);
                 float Y = Float.parseFloat(pattern.split(co_ords[i][j])[1]);
                 float d = (float)Math.sqrt(Math.pow((X - x),2) + Math.pow((Y - y),2));
-                if(d < dist && i!=tempx && j!=tempy /*&& (i!=tempx+1 && j!=tempy+1) || (i!= tempx-1 && j!=tempy-1)*/)    {
-                    dist = d;
-                    s = i+","+j;
+                if(d < dist &&  i!=tempx && j!=tempy)    {
+                    if(d > 0 && d <= maxDist) {
+                        dist = d;
+                        s = i + "," + j;
+                    }
                 }
             }
         }
